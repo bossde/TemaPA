@@ -14,7 +14,7 @@ int main(int argc, char **argv){
 
 
     if(tasks[0] == 1){
-        
+        Task1(argv,&TeamList);
     }
 
     if(tasks[1] == 1){

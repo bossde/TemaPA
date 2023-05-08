@@ -3,6 +3,7 @@
 #include <string.h>
 
 #define NUMBER_OF_TASKS 5
+#define NAMES_LENGHT 80
 
 struct Player
 {
@@ -12,7 +13,7 @@ struct Player
 };
 
 struct PlayerArray{
-    struct Player;
+    struct Player player;
     struct PlayerArray *next;
 };
 
@@ -26,3 +27,5 @@ struct Team{
 };
 
 typedef struct Team Team;
+
+void Task1(char** argv, Team** TeamList);
