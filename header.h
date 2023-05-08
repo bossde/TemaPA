@@ -20,7 +20,7 @@ struct PlayerArray{
 typedef struct PlayerArray PlayerArray;
 
 struct Team{
-    char* name;
+    char *name;
     int number_of_players;
     PlayerArray* Players;
     struct Team *nextTeam;

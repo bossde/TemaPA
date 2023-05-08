@@ -3,34 +3,29 @@
 void Task1(char **argv, Team** TeamList){
     FILE* date;
     int numberOfTeams;
+    char** TeamNames;
     *TeamList = (Team*) malloc(sizeof(Team));
     Team* Element = (Team*) malloc(sizeof(Team));
-    Team* AuxElem = NULL;
     date = fopen(argv[2],"rt");
     if (date != NULL){
         fscanf(date,"%d", &numberOfTeams);
-        for(int i = 0; i < numberOfTeams; i++){
+        TeamNames = (char**) malloc(sizeof(char*) * numberOfTeams);
+        for(int i = 0; i < numberOfTeams; i++)
+        TeamNames[i] = (char*) malloc(NAMES_LENGHT);
+            fscanf(date,"%d", &Element->number_of_players);
             Element->name = (char*) malloc(NAMES_LENGHT);
-            fscanf(date, "%d", &Element->number_of_players);
-            fscanf(date, "%s", Element->name);
-            if(*TeamList == NULL){
-                *TeamList = Element;
-            }
-            else{
-                AuxElem = *TeamList;
-                *TeamList = Element;
-                (*TeamList)->nextTeam = AuxElem;
-            }
-        }
+            fscanf(date, "%[^\r]", Element->name);
+            strcpy(TeamNames[i],Element->name);
+            free(Element->name);
     }
-    FILE* outputfile;
-    outputfile = fopen(argv[3],"wt");
-    if(outputfile != NULL){
-        while(*TeamList){
-            fprintf(outputfile,"%s\n",(*TeamList)->name);
-        }
+    FILE* file;
+    file = fopen(argv[3],"wt");
+    if(file != NULL){
+        fprintf(file,"%d\n",numberOfTeams);
+        fprintf(file, "%d", Element->number_of_players);
+        fprintf(file, "%s", TeamNames[0]);
     }
-    fclose(outputfile);
+    fclose(file);
     fclose(date);
 }
 
