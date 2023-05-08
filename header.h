@@ -11,8 +11,18 @@ struct Player
     int points;
 };
 
-typedef struct Player Player;
+struct PlayerArray{
+    struct Player;
+    struct PlayerArray *next;
+};
+
+typedef struct PlayerArray PlayerArray;
 
 struct Team{
-    
-}
+    char* name;
+    int number_of_players;
+    PlayerArray* Players;
+    struct Team *nextTeam;
+};
+
+typedef struct Team Team;

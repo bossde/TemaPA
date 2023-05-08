@@ -1,6 +1,13 @@
 #include "header.h"
 
-void Task1(char *argv, char* argv){
+void Task1(char **argv, Team** TeamList){
+    FILE* date;
+    int numberOfTeams;
+    *(TeamList) = (Team*) malloc(sizeof(Team));
+    date = fopen(argv[2],"rt");
+    if (date != NULL){
+        fscanf(date,"%d", &numberOfTeams);
+    }
 
 }
 
