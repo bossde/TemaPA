@@ -21,8 +21,7 @@ typedef struct PlayerArray PlayerArray;
 
 struct Team{
     char *name;
-    int number_of_players;
-    PlayerArray* Players;
+    PlayerArray *Players;
     struct Team *nextTeam;
 };
 
