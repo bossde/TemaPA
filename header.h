@@ -28,3 +28,4 @@ struct Team{
 typedef struct Team Team;
 
 void Task1(char** argv, Team** TeamList);
+void PrintList(Team* TeamList, char** argv);

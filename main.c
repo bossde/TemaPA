@@ -12,9 +12,9 @@ int main(int argc, char **argv){
     }
     fclose(file);
 
-
     if(tasks[0] == 1){
         Task1(argv,&TeamList);
+        PrintList(TeamList,argv);
     }
 
     if(tasks[1] == 1){
