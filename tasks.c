@@ -52,42 +52,45 @@ void Task1(char **argv, Team **TeamList){
 }
 
 void Task2(Team** TeamList, char* argv[]){
-    FILE *output,*input;
-    float median, minimal_median = FLT_MAX;
-    int numberOfPlayers, newNumberOfPlayers;
+    FILE* output, *input;
+    int numberOfTeams,newNumberOfTeams;
     input = fopen(argv[2],"rt");
     if(input){
-        fscanf(input,"%d",&numberOfPlayers);
+        fscanf(input,"%d",&numberOfTeams);
     }
     fclose(input);
-    newNumberOfPlayers = PowOf2(numberOfPlayers);
-    output = fopen(argv[3],"wt");
-    fprintf(output,"%d %d",numberOfPlayers,newNumberOfPlayers);
-    Team* LeastPoints = NULL, *Auxiliar = NULL;
-    LeastPoints = (Team*) malloc(sizeof(Team));
+    newNumberOfTeams = PowOf2(numberOfTeams);
+    float median, lowest_median = FLT_MAX;
+    Team *Auxiliar = *TeamList, *LeastPoints = (Team*) malloc(sizeof(Team));
     LeastPoints->name = (char*) malloc(NAMES_LENGHT);
-    while(numberOfPlayers > newNumberOfPlayers){
-    Auxiliar = *TeamList;
-    while(Auxiliar != NULL){
-        median = MedianCalculator(Auxiliar->Players);
-        if(median < minimal_median){
-            minimal_median = median;
-            strcpy(LeastPoints->name, Auxiliar->name);
+    output = fopen(argv[3],"wt");
+    if(output){
+        while(numberOfTeams > newNumberOfTeams){
+            Auxiliar = *TeamList;
+            while(Auxiliar){
+                median = MedianCalculator(Auxiliar);
+                if(median < lowest_median){
+                    lowest_median = median;
+                    LeastPoints = copyTeam(Auxiliar,LeastPoints);
+                    fprintf(output,"%s\n",LeastPoints->name);
+                }
+                Auxiliar = Auxiliar->nextTeam;
+            }
+            Auxiliar = *TeamList;
+            while(Auxiliar){
+                if(strcmp(LeastPoints->name,Auxiliar->name) == 0){
+                    RemoveTeam(TeamList,Auxiliar);
+                    break;
+                }
+                Auxiliar = Auxiliar->nextTeam;
+            }
+            numberOfTeams--;
         }
-        break;
-        Auxiliar = Auxiliar->nextTeam;
-    }
-
-    Auxiliar = *TeamList;
+            Auxiliar = *TeamList;
         while(Auxiliar){
-        if(Auxiliar->nextTeam = LeastPoints) {
-            RemoveTeam(TeamList, Auxiliar->nextTeam);
-            break;
+            fprintf(output,"%s\n",Auxiliar->name);
+            Auxiliar = Auxiliar->nextTeam;
         }
-    }
-
-    numberOfPlayers--;
-
     }
     fclose(output);
 }

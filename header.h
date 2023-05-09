@@ -33,6 +33,7 @@ typedef struct Team Team;
 void Task1(char** argv, Team** TeamList);
 void Task2(Team** TeamList, char** argv);
 void PrintList(Team* TeamList, FILE* output);
-float MedianCalculator(PlayerArray* Players);
+float MedianCalculator(Team* TeamMedian);
 int PowOf2(int numberOfTeams);
 void RemoveTeam(Team** TeamHead, Team* TeamToDelete);
+Team* copyTeam(Team* source, Team* destination);

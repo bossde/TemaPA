@@ -7,21 +7,17 @@ void PrintList(Team* TeamList, FILE* output){
 	}
 }
 
-float MedianCalculator(PlayerArray* Players){
-    if (Players == NULL) {
-        return 0.0;
-    }
-
-    int median = 0;
-    int numberOfOperations = 0;
-
-    while(Players){
-        median += Players->player.points;
-        numberOfOperations++;
-        Players = Players->next;
-    }
-
-    return (float)(median/numberOfOperations);
+float MedianCalculator(Team* TeamMedian){
+	float median = 0;
+	int numberOfSums = 0;
+	PlayerArray* Current = TeamMedian->Players;
+	while(Current != NULL){
+		median += Current->player.points;
+		numberOfSums++;
+		Current = Current->next;
+	}
+	median = median / numberOfSums;
+	return median;
 }
 
 int PowOf2(int numberOfTeams){
@@ -44,6 +40,43 @@ void RemoveTeam(Team** TeamHead, Team* TeamToDelete) {
         current = current->nextTeam;
     }
 
-    current->nextTeam = TeamToDelete->nextTeam;
+    if (current == NULL) {
+        return;
+    }
+	
+    if (TeamToDelete->nextTeam != NULL) {
+        current->nextTeam = TeamToDelete->nextTeam;
+    } else {
+        current->nextTeam = NULL;
+    }
+
     free(TeamToDelete);
+}
+
+
+Team* copyTeam(Team* source, Team* destination){
+    int nameLength = strlen(source->name) + 1;
+    destination->name = (char*) malloc(nameLength);
+    strcpy(destination->name, source->name);
+
+    destination->numberOfPlayers = source->numberOfPlayers;
+
+    PlayerArray* sourcePlayer = source->Players;
+    PlayerArray* destinationPlayer = (PlayerArray*) malloc(sizeof(PlayerArray));
+    destination->Players = destinationPlayer;
+
+    while(sourcePlayer != NULL){
+        destinationPlayer->player = sourcePlayer->player;
+        if(sourcePlayer->next != NULL){
+            destinationPlayer->next = (PlayerArray*) malloc(sizeof(PlayerArray));
+            destinationPlayer = destinationPlayer->next;
+        }
+        else{
+            destinationPlayer->next = NULL;
+        }
+        sourcePlayer = sourcePlayer->next;
+    }
+
+    destination->nextTeam = source->nextTeam;
+	return destination;
 }
