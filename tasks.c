@@ -78,18 +78,15 @@ void Task2(Team** TeamList, char* argv[]){
             }
             Auxiliar = *TeamList;
             while(Auxiliar){
-                if(strcmp(LeastPoints->name,Auxiliar->name) == 0){
-                    RemoveTeam(TeamList,Auxiliar);
-                    break;
-                }
-                Auxiliar = Auxiliar->nextTeam;
-            }
+    if(strcmp(LeastPoints->name,Auxiliar->name) == 0){
+        RemoveTeam(TeamList,Auxiliar);
+        Auxiliar = *TeamList;  
+        break;
+    }
+    Auxiliar = Auxiliar->nextTeam;
+}
+
             numberOfTeams--;
-        }
-            Auxiliar = *TeamList;
-        while(Auxiliar){
-            fprintf(output,"%s\n",Auxiliar->name);
-            Auxiliar = Auxiliar->nextTeam;
         }
     }
     fclose(output);
