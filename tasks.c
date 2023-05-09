@@ -45,15 +45,51 @@ void Task1(char **argv, Team **TeamList){
                 *TeamList = Element;
             }
         }
-        PrintList(*TeamList,argv);
+        PrintList(*TeamList, output);
     }
     fclose(output);
     fclose(date);
 }
 
-void Task2(Team** TeamList, char** argv){
-    FILE* output;
-    Team* Current = *TeamList;
+void Task2(Team** TeamList, char* argv[]){
+    FILE *output,*input;
+    float median, minimal_median = FLT_MAX;
+    int numberOfPlayers, newNumberOfPlayers;
+    input = fopen(argv[2],"rt");
+    if(input){
+        fscanf(input,"%d",&numberOfPlayers);
+    }
+    fclose(input);
+    newNumberOfPlayers = PowOf2(numberOfPlayers);
+    output = fopen(argv[3],"wt");
+    fprintf(output,"%d %d",numberOfPlayers,newNumberOfPlayers);
+    Team* LeastPoints = NULL, *Auxiliar = NULL;
+    LeastPoints = (Team*) malloc(sizeof(Team));
+    LeastPoints->name = (char*) malloc(NAMES_LENGHT);
+    while(numberOfPlayers > newNumberOfPlayers){
+    Auxiliar = *TeamList;
+    while(Auxiliar != NULL){
+        median = MedianCalculator(Auxiliar->Players);
+        if(median < minimal_median){
+            minimal_median = median;
+            strcpy(LeastPoints->name, Auxiliar->name);
+        }
+        break;
+        Auxiliar = Auxiliar->nextTeam;
+    }
+
+    Auxiliar = *TeamList;
+        while(Auxiliar){
+        if(Auxiliar->nextTeam = LeastPoints) {
+            RemoveTeam(TeamList, Auxiliar->nextTeam);
+            break;
+        }
+    }
+
+    numberOfPlayers--;
+
+    }
+    fclose(output);
 }
 
 void Task3(){
