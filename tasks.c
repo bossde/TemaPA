@@ -53,41 +53,50 @@ void Task1(char **argv, Team **TeamList){
 
 void Task2(Team** TeamList, char* argv[]){
     FILE* output, *input;
-    int numberOfTeams,newNumberOfTeams;
+    int numberOfTeams,newNumberOfTeams, index;
     input = fopen(argv[2],"rt");
     if(input){
         fscanf(input,"%d",&numberOfTeams);
     }
     fclose(input);
     newNumberOfTeams = PowOf2(numberOfTeams);
-    float median, lowest_median = FLT_MAX;
-    Team *Auxiliar = *TeamList, *LeastPoints = (Team*) malloc(sizeof(Team));
-    LeastPoints->name = (char*) malloc(NAMES_LENGHT);
+    float median[100], lowest_median;
+    Team *Auxiliar = NULL, *Auxiliar2 = NULL;
     output = fopen(argv[3],"wt");
     if(output){
         while(numberOfTeams > newNumberOfTeams){
             Auxiliar = *TeamList;
+            index = 0;
+            lowest_median = FLT_MAX;
             while(Auxiliar){
-                median = MedianCalculator(Auxiliar);
-                if(median < lowest_median){
-                    lowest_median = median;
-                    LeastPoints = copyTeam(Auxiliar,LeastPoints);
-                    fprintf(output,"%s\n",LeastPoints->name);
+                median[index] = MedianCalculator(Auxiliar);
+                if(median[index] < lowest_median){
+                    lowest_median = median[index];
                 }
+                index++;
                 Auxiliar = Auxiliar->nextTeam;
             }
-            Auxiliar = *TeamList;
-            while(Auxiliar){
-    if(strcmp(LeastPoints->name,Auxiliar->name) == 0){
-        RemoveTeam(TeamList,Auxiliar);
-        Auxiliar = *TeamList;  
-        break;
-    }
-    Auxiliar = Auxiliar->nextTeam;
-}
 
+            Auxiliar2 = *TeamList;
+
+            for(int i = 0; i < numberOfTeams && Auxiliar2 != NULL; i++){
+                    if(median[i] == lowest_median){
+                        RemoveTeam(TeamList,Auxiliar2);
+                        break;
+                    }
+                    Auxiliar2 = Auxiliar2->nextTeam;
+            }
+            
+            for(int i = 0; i < numberOfTeams; i++){
+                median[i] = 0;
+            }
             numberOfTeams--;
         }
+    }
+    Team* Auxiliar3 = *TeamList;
+    while(Auxiliar3){
+        fprintf(output,"%s\n",Auxiliar3->name);
+        Auxiliar3 = Auxiliar3->nextTeam;    
     }
     fclose(output);
 }

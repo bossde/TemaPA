@@ -44,6 +44,10 @@ void RemoveTeam(Team** TeamHead, Team* TeamToDelete) {
         return;
     }
 	
+    if(TeamToDelete == NULL){
+        return;
+    }
+    
     if (TeamToDelete->nextTeam != NULL) {
         current->nextTeam = TeamToDelete->nextTeam;
     } else {
