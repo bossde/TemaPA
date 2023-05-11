@@ -4,6 +4,7 @@ int main(int argc, char **argv){
     int* tasks;
     tasks = (int*) malloc(NUMBER_OF_TASKS * sizeof(int));
     FILE* file;
+    StackNode* WinnerTeams = NULL;
     Team* TeamList = NULL;
     file = fopen(argv[1],"rt");
     if(file != NULL){
@@ -21,7 +22,7 @@ int main(int argc, char **argv){
     }
 
     if(tasks[2] == 1){
-
+        Task3(&TeamList,argv,&WinnerTeams);
     }
 
     if(tasks[3] == 1){
