@@ -126,24 +126,24 @@ void Task3(Team** TeamList, char** argv, StackNode** WinnerTeams){
 
     while(new_number_of_teams != WINNER_TEAMS){
         number_of_round++;
-        fprintf(output,"\n--- ROUND NO:%d\n", number_of_round);
+        fprintf(output,"--- ROUND NO:%d\n",number_of_round);
         PrintMatches(q,output);
         fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
         q_copy = q->front;
-        while(q_copy){
-            if(q_copy->TeamQueue->team_points > q_copy->next->TeamQueue->team_points){
+        while(q_copy && q_copy->next){
+            if(q_copy->TeamQueue->team_points >= q_copy->next->TeamQueue->team_points){
                 q_copy->TeamQueue->team_points = q_copy->TeamQueue->team_points + 1.00;
                 push(&Winners,q_copy->TeamQueue);
                 push(&Losers,q_copy->next->TeamQueue);
             }
-            else{
+            else if(q_copy->TeamQueue->team_points < q_copy->next->TeamQueue->team_points){
                 q_copy->next->TeamQueue->team_points = q_copy->next->TeamQueue->team_points + 1.00;
                 push(&Winners,q_copy->next->TeamQueue);
                 push(&Losers,q_copy->TeamQueue);
             }
             q_copy = q_copy->next->next;
         }
-        PrintStack(Winners,output);
+        PrintStack(&Winners,output);
         new_number_of_teams = new_number_of_teams / 2;
     }
     fclose(output);

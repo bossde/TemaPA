@@ -34,10 +34,11 @@ void deleteStack(StackNode**top){
     }
 }
 
-void PrintStack(StackNode*top, FILE* output){
+void PrintStack(StackNode**top, FILE* output){
     Team* output_team = NULL;
-        while(top){
-            output_team = pop(&top);
+        while(*top){
+            output_team = pop(top);
             fprintf(output,"%s %.2f\n",output_team->name, output_team->team_points);
         }
+		fprintf(output,"\n");
 }

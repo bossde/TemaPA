@@ -77,5 +77,5 @@ void deleteStack(StackNode**top);
 void PrintQueue(Queue* q, FILE* output);
 void PrintMatches(Queue* q, FILE* output);
 void CalculatePoints(Queue *q);
-void PrintStack(StackNode*top, FILE* output);
+void PrintStack(StackNode**top, FILE* output);
 void RecreateQueue(Queue* q, StackNode* Winners);

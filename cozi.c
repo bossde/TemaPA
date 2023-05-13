@@ -50,13 +50,14 @@ void PrintQueue(Queue* q, FILE* output){
 		fprintf(output, "%s\n", q_copy->TeamQueue->name);
 		q_copy = q_copy->next;
 	}
+	fprintf(output,"\n");
 }
 
 void PrintMatches(Queue* q, FILE* output){
 	Element* q_copy = q->front;
-        while(q_copy->next != NULL){
-            fprintf(output, "%s                          -                      %s\n", q_copy->TeamQueue->name, q_copy->next->TeamQueue->name);
-            q_copy = q_copy->next;
+        while(q_copy && q_copy->next){
+            fprintf(output,"%s - %s\n",q_copy->TeamQueue->name,q_copy->next->TeamQueue->name);
+            q_copy = q_copy->next->next;
         }
 	fprintf(output,"\n");
 }
@@ -66,13 +67,5 @@ void CalculatePoints(Queue *q){
 	while(q_copy){
 		q_copy->TeamQueue->team_points = MedianCalculator(q_copy->TeamQueue);
 		q_copy = q_copy->next;
-	}
-}
-
-void RecreateQueue(Queue* q, StackNode* Winners){
-	Team* TeamToAdd = NULL;
-	while(Winners != NULL){
-		TeamToAdd = pop(&Winners);
-		enQueue(q,TeamToAdd);
 	}
 }
