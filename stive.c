@@ -36,14 +36,25 @@ void deleteStack(StackNode**top){
 
 void CreateStacks(Queue* q, StackNode** Winners, StackNode** Losers){
 	Element* q_copy = q->front;
+	PlayerArray* PlayerPoints = NULL;
         while(q_copy){
             if(q_copy->Teams->firstTeam->team_points > q_copy->Teams->secondTeam->team_points){
                 q_copy->Teams->firstTeam->team_points = q_copy->Teams->firstTeam->team_points + 1.00;
+				PlayerPoints = q_copy->Teams->firstTeam->Players;
+				while(PlayerPoints){
+					PlayerPoints->player.points = PlayerPoints->player.points + 1;
+					PlayerPoints = PlayerPoints->next;
+				}
                 push(Winners,q_copy->Teams->firstTeam);
                 push(Losers,q_copy->Teams->secondTeam);
             }
             else if(q_copy->Teams->firstTeam->team_points <= q_copy->Teams->secondTeam->team_points){
                 q_copy->Teams->secondTeam->team_points = q_copy->Teams->secondTeam->team_points + 1.00;
+				PlayerPoints = q_copy->Teams->secondTeam->Players;
+				while(PlayerPoints){
+					PlayerPoints->player.points = PlayerPoints->player.points + 1;
+					PlayerPoints = PlayerPoints->next;
+				}
                 push(Winners,q_copy->Teams->secondTeam);
                 push(Losers,q_copy->Teams->firstTeam);
             }
@@ -53,9 +64,15 @@ void CreateStacks(Queue* q, StackNode** Winners, StackNode** Losers){
 
 void PrintStack(StackNode**top, FILE* output){
     Team* output_team = NULL;
+	int contor = 0;
         while(*top){
             output_team = pop(top);
-            fprintf(output,"%s %.2f\n",output_team->name, output_team->team_points);
+            fprintf(output,"%-32s  -  %.2f\n",output_team->name, output_team->team_points);
+			contor++;
         }
-		fprintf(output,"\n");
+		if(contor != 1){
+			fprintf(output,"\n");
+		}
 }
+
+

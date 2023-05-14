@@ -7,6 +7,7 @@
 #define NUMBER_OF_TASKS 5
 #define NAMES_LENGHT 80
 #define WINNER_TEAMS 8
+#define SEMI_FINAL 2
 
 struct Player
 {

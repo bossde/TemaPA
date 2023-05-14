@@ -55,6 +55,7 @@ Queue* CreateQueue(Queue* q, Team* TeamList){
 	return q;
 }
 
+
 void PrintQueue(Queue* q, FILE* output){
 	Element* q_copy = q->front;
 	while(q_copy != NULL){
@@ -67,7 +68,7 @@ void PrintQueue(Queue* q, FILE* output){
 void PrintMatches(Queue* q, FILE* output){
 	Element* q_copy = q->front;
         while(q_copy){
-            fprintf(output,"%s - %s\n",q_copy->Teams->firstTeam->name, q_copy->Teams->secondTeam->name);
+            fprintf(output,"%-32s - %32s\n",q_copy->Teams->firstTeam->name, q_copy->Teams->secondTeam->name);
             q_copy = q_copy->next;
         }
 	fprintf(output,"\n");
