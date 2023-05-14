@@ -97,5 +97,15 @@ void recreateQueueFromWinnersStack(Queue** q, StackNode* winnersStack) {
     }
 }
 
+Queue* newQueue(Queue* q){
+	Queue* newQueue = createQueue();
+	Element* q_copy = q->front;
+	while(q_copy){
+		enQueue(newQueue,q_copy->Teams->firstTeam,q_copy->Teams->secondTeam);
+		q_copy = q_copy->next;
+	}
+	return newQueue;
+}
+
 
 

@@ -114,22 +114,26 @@ void Task3(Team* TeamList, char** argv, StackNode** WinnerTeams){
     fscanf(input,"%d", &number_of_teams);
     fclose(input);
     new_number_of_teams = PowOf2(number_of_teams);
-    Queue *q = NULL;
+    Queue *q = NULL,*nextq = NULL;
     StackNode *Winners = NULL;
     StackNode *Losers = NULL;
     output = fopen(argv[3], "wt");
     q = createQueue();
     q = CreateQueue(q,TeamList);
     CalculatePoints(q);
+    nextq = createQueue();
+    nextq = CreateQueue(nextq,TeamList);
+    CalculatePoints(nextq);
     PrintQueue(q,output);
 
     while(new_number_of_teams != SEMI_FINAL){
         number_of_round++;
         fprintf(output,"--- ROUND NO:%d\n",number_of_round);
-        PrintMatches(q,output);
+        PrintMatches(nextq,output);
         fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
-        CreateStacks(q,&Winners,&Losers);
-        recreateQueueFromWinnersStack(&q,Winners);
+        CreateStacks(nextq,&Winners,&Losers);
+        if(new_number_of_teams >= 16) recreateQueueFromWinnersStack(&q,Winners);
+        recreateQueueFromWinnersStack(&nextq,Winners);
         PrintStack(&Winners,output);
         deleteStack(&Losers);
         deleteStack(&Winners);
@@ -137,13 +141,13 @@ void Task3(Team* TeamList, char** argv, StackNode** WinnerTeams){
     }
     number_of_round++;
     fprintf(output,"--- ROUND NO:%d\n",number_of_round);
-    PrintMatches(q,output);
+    PrintMatches(nextq,output);
     fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
-    CreateStacks(q,&Winners,&Losers);
+    CreateStacks(nextq,&Winners,&Losers);
     PrintStack(&Winners,output);
     deleteStack(&Losers);
     deleteStack(&Winners);
-    free(q);
+    free(nextq);
     fclose(output);
 }
 

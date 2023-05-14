@@ -84,3 +84,4 @@ void CalculatePoints(Queue *q);
 void CreateStacks(Queue* q, StackNode** Winners, StackNode** Losers);
 void PrintStack(StackNode**top, FILE* output);
 void recreateQueueFromWinnersStack(Queue** q, StackNode* winnersStack);
+Queue* newQueue(Queue* q);
