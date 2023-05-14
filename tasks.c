@@ -104,7 +104,7 @@ void Task2(Team** TeamList, char* argv[]){
     fclose(output);
 }
 
-void Task3(Team** TeamList, char** argv, StackNode** WinnerTeams){
+void Task3(Team* TeamList, char** argv, StackNode** WinnerTeams){
     FILE *output, *input;
     int number_of_teams, new_number_of_teams, number_of_round = 0;
     input = fopen(argv[2],"rt");
@@ -112,15 +112,12 @@ void Task3(Team** TeamList, char** argv, StackNode** WinnerTeams){
     fclose(input);
     new_number_of_teams = PowOf2(number_of_teams);
     Queue *q = NULL;
-    StackNode *Winners, *Losers;
+    StackNode *Winners = NULL;
+    StackNode *Losers = NULL;
     Element* q_copy = NULL;
     output = fopen(argv[3], "wt");
     q = createQueue();
-    Team* BrowseInTeams = *TeamList;
-    while(BrowseInTeams){
-        enQueue(q,BrowseInTeams);
-        BrowseInTeams = BrowseInTeams->nextTeam;
-    }
+    q = CreateQueue(q,TeamList);
     CalculatePoints(q);
     PrintQueue(q,output);
 
@@ -129,23 +126,15 @@ void Task3(Team** TeamList, char** argv, StackNode** WinnerTeams){
         fprintf(output,"--- ROUND NO:%d\n",number_of_round);
         PrintMatches(q,output);
         fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
-        q_copy = q->front;
-        while(q_copy && q_copy->next){
-            if(q_copy->TeamQueue->team_points >= q_copy->next->TeamQueue->team_points){
-                q_copy->TeamQueue->team_points = q_copy->TeamQueue->team_points + 1.00;
-                push(&Winners,q_copy->TeamQueue);
-                push(&Losers,q_copy->next->TeamQueue);
-            }
-            else if(q_copy->TeamQueue->team_points < q_copy->next->TeamQueue->team_points){
-                q_copy->next->TeamQueue->team_points = q_copy->next->TeamQueue->team_points + 1.00;
-                push(&Winners,q_copy->next->TeamQueue);
-                push(&Losers,q_copy->TeamQueue);
-            }
-            q_copy = q_copy->next->next;
-        }
+        CreateStacks(q,&Winners,&Losers);
+        recreateQueueFromWinnersStack(&q,Winners);
         PrintStack(&Winners,output);
+        deleteStack(&Losers);
+        deleteStack(&Winners);
         new_number_of_teams = new_number_of_teams / 2;
     }
+
+    
     fclose(output);
 }
 

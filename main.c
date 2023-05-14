@@ -22,7 +22,7 @@ int main(int argc, char **argv){
     }
 
     if(tasks[2] == 1){
-        Task3(&TeamList,argv,&WinnerTeams);
+        Task3(TeamList,argv,&WinnerTeams);
     }
 
     if(tasks[3] == 1){

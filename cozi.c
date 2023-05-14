@@ -3,14 +3,17 @@
 Queue* createQueue(){
 	Queue *q;
 	q=(Queue *)malloc(sizeof(Queue));
-	if (q == NULL) return NULL;	
+	if (q == NULL) return NULL;
 	q->front = q->rear=NULL;
 	return q;	
 }
 
- void enQueue(Queue*q, Team* v){
+ void enQueue(Queue*q, Team* firstTeam, Team* secondTeam){
+	Match* v = (Match*) malloc(sizeof(Match));
+	v->firstTeam = firstTeam;
+	v->secondTeam = secondTeam;
 	Element* newNode = (Element*)malloc(sizeof(Element));
-	newNode->TeamQueue = v;
+	newNode->Teams = v;
 	newNode->next = NULL;
 	if (q->rear == NULL) q->rear = newNode; 
 	else{
@@ -20,11 +23,11 @@ Queue* createQueue(){
 	if (q->front == NULL) q->front = q->rear; 
 }
  
-Team* deQueue(Queue*q) {  
-	Element* aux; Team* d;
+Match* deQueue(Queue*q) {  
+	Element* aux; Match* d;
 	if (isEmpty(q)) return NULL;
 	aux = q->front; 
-	d = aux->TeamQueue;
+	d = aux->Teams;
 	q->front = (q->front)->next;
 	free(aux);
 	return d;  	
@@ -44,10 +47,18 @@ void deleteQueue(Queue*q){
 	free(q);
 }	
 
+Queue* CreateQueue(Queue* q, Team* TeamList){
+	while(TeamList && TeamList->nextTeam){
+        enQueue(q,TeamList,TeamList->nextTeam);
+        TeamList = TeamList->nextTeam->nextTeam;
+    }
+	return q;
+}
+
 void PrintQueue(Queue* q, FILE* output){
 	Element* q_copy = q->front;
 	while(q_copy != NULL){
-		fprintf(output, "%s\n", q_copy->TeamQueue->name);
+		fprintf(output, "%s\n%s\n", q_copy->Teams->firstTeam->name,q_copy->Teams->secondTeam->name);
 		q_copy = q_copy->next;
 	}
 	fprintf(output,"\n");
@@ -55,9 +66,9 @@ void PrintQueue(Queue* q, FILE* output){
 
 void PrintMatches(Queue* q, FILE* output){
 	Element* q_copy = q->front;
-        while(q_copy && q_copy->next){
-            fprintf(output,"%s - %s\n",q_copy->TeamQueue->name,q_copy->next->TeamQueue->name);
-            q_copy = q_copy->next->next;
+        while(q_copy){
+            fprintf(output,"%s - %s\n",q_copy->Teams->firstTeam->name, q_copy->Teams->secondTeam->name);
+            q_copy = q_copy->next;
         }
 	fprintf(output,"\n");
 }
@@ -65,7 +76,25 @@ void PrintMatches(Queue* q, FILE* output){
 void CalculatePoints(Queue *q){
 	Element* q_copy = q->front;
 	while(q_copy){
-		q_copy->TeamQueue->team_points = MedianCalculator(q_copy->TeamQueue);
+		q_copy->Teams->firstTeam->team_points = MedianCalculator(q_copy->Teams->firstTeam);
+		q_copy->Teams->secondTeam->team_points = MedianCalculator(q_copy->Teams->secondTeam);
 		q_copy = q_copy->next;
 	}
 }
+
+void recreateQueueFromWinnersStack(Queue** q, StackNode* winnersStack) {
+    while (!isEmpty(*q)) {
+        deQueue(*q);
+    }
+
+    *q = createQueue();
+
+    StackNode* winnersCopy = winnersStack;
+    while (winnersCopy != NULL && winnersCopy->next != NULL) {
+        enQueue(*q, winnersCopy->StackTeam,winnersCopy->next->StackTeam);
+        winnersCopy = winnersCopy->next->next;
+    }
+}
+
+
+

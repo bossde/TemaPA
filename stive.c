@@ -34,6 +34,23 @@ void deleteStack(StackNode**top){
     }
 }
 
+void CreateStacks(Queue* q, StackNode** Winners, StackNode** Losers){
+	Element* q_copy = q->front;
+        while(q_copy){
+            if(q_copy->Teams->firstTeam->team_points > q_copy->Teams->secondTeam->team_points){
+                q_copy->Teams->firstTeam->team_points = q_copy->Teams->firstTeam->team_points + 1.00;
+                push(Winners,q_copy->Teams->firstTeam);
+                push(Losers,q_copy->Teams->secondTeam);
+            }
+            else if(q_copy->Teams->firstTeam->team_points <= q_copy->Teams->secondTeam->team_points){
+                q_copy->Teams->secondTeam->team_points = q_copy->Teams->secondTeam->team_points + 1.00;
+                push(Winners,q_copy->Teams->secondTeam);
+                push(Losers,q_copy->Teams->firstTeam);
+            }
+            q_copy = q_copy->next;
+        }
+}
+
 void PrintStack(StackNode**top, FILE* output){
     Team* output_team = NULL;
         while(*top){
