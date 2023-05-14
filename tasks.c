@@ -20,6 +20,9 @@ void Task1(char **argv, Team **TeamList){
             fscanf(date,"%d", &Element->numberOfPlayers);
             c = fgetc(date);
             fscanf(date, "%[^\r]", Element->name);
+            if(Element->name[strlen(Element->name) - 1] == ' '){
+                Element->name[strlen(Element->name) - 1] = '\0';
+            }
 
             PlayerArray* Auxiliar = Element->Players;
             for(int j = 0; j < Element->numberOfPlayers; j++){
@@ -114,14 +117,13 @@ void Task3(Team* TeamList, char** argv, StackNode** WinnerTeams){
     Queue *q = NULL;
     StackNode *Winners = NULL;
     StackNode *Losers = NULL;
-    Element* q_copy = NULL;
     output = fopen(argv[3], "wt");
     q = createQueue();
     q = CreateQueue(q,TeamList);
     CalculatePoints(q);
     PrintQueue(q,output);
 
-    while(new_number_of_teams != WINNER_TEAMS){
+    while(new_number_of_teams != SEMI_FINAL){
         number_of_round++;
         fprintf(output,"--- ROUND NO:%d\n",number_of_round);
         PrintMatches(q,output);
@@ -133,8 +135,15 @@ void Task3(Team* TeamList, char** argv, StackNode** WinnerTeams){
         deleteStack(&Winners);
         new_number_of_teams = new_number_of_teams / 2;
     }
-
-    
+    number_of_round++;
+    fprintf(output,"--- ROUND NO:%d\n",number_of_round);
+    PrintMatches(q,output);
+    fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
+    CreateStacks(q,&Winners,&Losers);
+    PrintStack(&Winners,output);
+    deleteStack(&Losers);
+    deleteStack(&Winners);
+    free(q);
     fclose(output);
 }
 
