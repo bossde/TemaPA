@@ -59,6 +59,7 @@ struct StackElement{
 typedef struct StackElement StackNode;
 
 struct TreeNode{
+    int height;
     Team* TeamNode;
     struct TreeNode *left,*right;
 };

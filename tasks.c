@@ -204,24 +204,30 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
         number_of_players_in_team = 0;
         q_copy = q_copy->next;
     }
+    free(PlayersInTeam);
     fclose(output);
 }
 
 void Task4(Queue* WinnersTeam, Team** TeamWinners, TreeNode** root, char** argv){
     FILE* output;
-    output = fopen(argv[3],"wt");
+    output = fopen(argv[3],"at");
     QueueToList(WinnersTeam,TeamWinners);
     Team* AuxiliarList = *TeamWinners;
     while(AuxiliarList){
         *root = insert(*root, AuxiliarList);
         AuxiliarList = AuxiliarList->nextTeam;
     }
+    fprintf(output,"\n");
     fprintf(output,"TOP 8 TEAMS:\n");
     PrintBST(*root,output);
     fclose(output);
 
 }
 
-void Task5(){
-    
+void Task5(TreeNode* root, char** argv){
+    FILE* output;
+    output = fopen(argv[3],"at");
+    if(output){
+
+    }
 }

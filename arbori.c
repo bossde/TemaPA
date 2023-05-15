@@ -23,9 +23,10 @@ TreeNode* insert(TreeNode* node, Team* TeamToAdd){
 void PrintBST(TreeNode* root, FILE* output){
     if(root){
         PrintBST(root->right,output);
-        fprintf(output,"%-32s - %.2f\n", root->TeamNode->name, root->TeamNode->team_points);
+        fprintf(output,"%-32s  -  %.2f\n", root->TeamNode->name, root->TeamNode->team_points);
         PrintBST(root->left,output);
     }
 }
+
 
 
