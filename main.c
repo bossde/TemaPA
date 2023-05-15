@@ -32,7 +32,7 @@ int main(int argc, char **argv){
     }
 
     if(tasks[4] == 1){
-
+        Task5(&root,argv);
     }
     }
     fclose(output);

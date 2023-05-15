@@ -221,13 +221,14 @@ void Task4(Queue* WinnersTeam, Team** TeamWinners, TreeNode** root, char** argv)
     fprintf(output,"TOP 8 TEAMS:\n");
     PrintBST(*root,output);
     fclose(output);
-
 }
 
-void Task5(TreeNode* root, char** argv){
+void Task5(TreeNode** root, char** argv){
     FILE* output;
     output = fopen(argv[3],"at");
     if(output){
-
+        FindHeights(root);
+        PrintHeights(*root,output);
     }
+    fclose(output);
 }

@@ -59,7 +59,7 @@ struct StackElement{
 typedef struct StackElement StackNode;
 
 struct TreeNode{
-    int height;
+    int max_height;
     Team* TeamNode;
     struct TreeNode *left,*right;
 };
@@ -71,6 +71,7 @@ void Task1(char** argv, Team** TeamList);
 void Task2(Team** TeamList, char** argv);
 void Task3(Team* TeamList, char** argv,Queue** WinnersTeams);
 void Task4(Queue* WinnersTeam, Team** TeamWinners,TreeNode** root, char** argv);
+void Task5(TreeNode** root, char** argv);
 
 
 void PrintList(Team* TeamList, FILE* output);
@@ -105,3 +106,14 @@ void recreateQueueFromWinnersStack(Queue** q, StackNode* winnersStack);
 TreeNode* newNode(Team* TeamToAdd);
 TreeNode* insert(TreeNode* node, Team* TeamToAdd);
 void PrintBST(TreeNode* root, FILE* output);
+int height(TreeNode* root);
+int nodeHeight(TreeNode* root);
+TreeNode* RightRotation(TreeNode* root);
+TreeNode* LeftRotation(TreeNode* root);
+TreeNode* LRRotation(TreeNode* root);
+TreeNode* RLRotation(TreeNode* root);
+void FindHeights(TreeNode** root);
+void PrintHeights(TreeNode* root, FILE* output);
+int getBalance(TreeNode* node);
+TreeNode* balance(TreeNode* root);
+void BalanceAVLTree(TreeNode** root);
