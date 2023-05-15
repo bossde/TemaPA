@@ -117,26 +117,24 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     fscanf(input,"%d", &number_of_teams);
     fclose(input);
     new_number_of_teams = PowOf2(number_of_teams);
-    Queue* nextq = NULL;
-    StackNode *Winners = NULL;
-    StackNode *Losers = NULL;
+    Queue* TeamsQueue = NULL;
+    StackNode *Winners = NULL,*Losers = NULL;
     Element* q_copy = NULL;
     PlayerArray* PlayersInTeam;
     output = fopen(argv[3], "wt");
     *WinnersTeams = createQueue();
     *WinnersTeams = CreateQueue(*WinnersTeams,TeamList);
     CalculatePoints(*WinnersTeams);
-    nextq = createQueue();
-    nextq = CreateQueue(nextq,TeamList);
-    CalculatePoints(nextq);
+    TeamsQueue = createQueue();
+    TeamsQueue = CreateQueue(TeamsQueue,TeamList);
+    CalculatePoints(TeamsQueue);
     PrintQueue(*WinnersTeams,output);
-
     while(new_number_of_teams != SEMI_FINAL){
         number_of_round++;
         fprintf(output,"--- ROUND NO:%d\n",number_of_round);
-        PrintMatches(nextq,output);
+        PrintMatches(TeamsQueue,output);
         fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
-        CreateStacks(nextq,&Winners,&Losers);
+        CreateStacks(TeamsQueue,&Winners,&Losers);
         if(new_number_of_teams >= 16) recreateQueueFromWinnersStack(WinnersTeams,Winners);
         if(new_number_of_teams == 16){
             q_copy = (*WinnersTeams)->front;
@@ -164,7 +162,7 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
                 q_copy = q_copy->next;
             }
         }
-        recreateQueueFromWinnersStack(&nextq,Winners);
+        recreateQueueFromWinnersStack(&TeamsQueue,Winners);
         PrintStack(&Winners,output);
         deleteStack(&Losers);
         deleteStack(&Winners);
@@ -175,13 +173,13 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     PlayerContor = 0;
     number_of_players_in_team = 0;
     fprintf(output,"--- ROUND NO:%d\n",number_of_round);
-    PrintMatches(nextq,output);
+    PrintMatches(TeamsQueue,output);
     fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
-    CreateStacks(nextq,&Winners,&Losers);
+    CreateStacks(TeamsQueue,&Winners,&Losers);
     PrintStack(&Winners,output);
     deleteStack(&Losers);
     deleteStack(&Winners);
-    free(nextq);
+    free(TeamsQueue);
     q_copy = (*WinnersTeams)->front;
     while(q_copy){
         q_copy->Teams->firstTeam->team_points = TeamPoints[TeamContor];
@@ -209,7 +207,18 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     fclose(output);
 }
 
-void Task4(){
+void Task4(Queue* WinnersTeam, Team** TeamWinners, TreeNode** root, char** argv){
+    FILE* output;
+    output = fopen(argv[3],"wt");
+    QueueToList(WinnersTeam,TeamWinners);
+    Team* AuxiliarList = *TeamWinners;
+    while(AuxiliarList){
+        *root = insert(*root, AuxiliarList);
+        AuxiliarList = AuxiliarList->nextTeam;
+    }
+    fprintf(output,"TOP 8 TEAMS:\n");
+    PrintBST(*root,output);
+    fclose(output);
 
 }
 

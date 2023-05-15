@@ -107,6 +107,18 @@ Queue* newQueue(Queue* q){
 	return newQueue;
 }
 
+void QueueToList(Queue* q, Team** TeamListt){
+	Element* q_copy = q->front;
+	(*TeamListt) = q_copy->Teams->firstTeam;
+	(*TeamListt)->nextTeam = q_copy->Teams->secondTeam;
+	(*TeamListt)->nextTeam->nextTeam = q_copy->next->Teams->firstTeam;
+	(*TeamListt)->nextTeam->nextTeam->nextTeam = q_copy->next->Teams->secondTeam;
+	(*TeamListt)->nextTeam->nextTeam->nextTeam->nextTeam = q_copy->next->next->Teams->firstTeam;
+	(*TeamListt)->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam = q_copy->next->next->Teams->secondTeam;
+	(*TeamListt)->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam = q_copy->next->next->next->Teams->firstTeam;
+	(*TeamListt)->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam = q_copy->next->next->next->Teams->secondTeam;
+	(*TeamListt)->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam->nextTeam = NULL;
+}
 
 
 

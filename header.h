@@ -58,30 +58,49 @@ struct StackElement{
 
 typedef struct StackElement StackNode;
 
+struct TreeNode{
+    Team* TeamNode;
+    struct TreeNode *left,*right;
+};
+
+typedef struct TreeNode TreeNode;
+
+
 void Task1(char** argv, Team** TeamList);
 void Task2(Team** TeamList, char** argv);
 void Task3(Team* TeamList, char** argv,Queue** WinnersTeams);
+void Task4(Queue* WinnersTeam, Team** TeamWinners,TreeNode** root, char** argv);
+
+
 void PrintList(Team* TeamList, FILE* output);
 float MedianCalculator(Team* TeamMedian);
 int PowOf2(int numberOfTeams);
 void RemoveTeam(Team** TeamHead, Team* TeamToDelete);
 Team* copyTeam(Team* source, Team* destination);
+
+
 Queue* createQueue();
 void enQueue(Queue*q, Team* firstTeam, Team* secondTeam);
 Match* deQueue(Queue*q);
 int isEmpty(Queue*q);
 void deleteQueue(Queue*q);
+Queue* CreateQueue(Queue* q, Team* TeamList);
+void PrintQueue(Queue* q, FILE* output);
+void PrintMatches(Queue* q, FILE* output);
+void CalculatePoints(Queue *q);
+Queue* newQueue(Queue* q);
+void QueueToList(Queue* q, Team** TeamListt);
+
 Team* top(StackNode *top);
 void push(StackNode**top, Team* v);
 Team* pop(StackNode**top);
 int isEmptyStack(StackNode*top);
 void deleteStack(StackNode**top);
 void deleteStack(StackNode**top);
-Queue* CreateQueue(Queue* q, Team* TeamList);
-void PrintQueue(Queue* q, FILE* output);
-void PrintMatches(Queue* q, FILE* output);
-void CalculatePoints(Queue *q);
 void CreateStacks(Queue* q, StackNode** Winners, StackNode** Losers);
 void PrintStack(StackNode**top, FILE* output);
 void recreateQueueFromWinnersStack(Queue** q, StackNode* winnersStack);
-Queue* newQueue(Queue* q);
+
+TreeNode* newNode(Team* TeamToAdd);
+TreeNode* insert(TreeNode* node, Team* TeamToAdd);
+void PrintBST(TreeNode* root, FILE* output);

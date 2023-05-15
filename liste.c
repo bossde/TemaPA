@@ -22,7 +22,7 @@ float MedianCalculator(Team* TeamMedian){
 
 int PowOf2(int numberOfTeams){
 	int value = 1;
-	while(value < numberOfTeams){
+	while(value <= numberOfTeams){
 		value = 2 * value;
 	}
 	return value/2;
