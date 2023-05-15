@@ -59,7 +59,7 @@ struct StackElement{
 typedef struct StackElement StackNode;
 
 struct TreeNode{
-    int max_height;
+    int height;
     Team* TeamNode;
     struct TreeNode *left,*right;
 };
