@@ -4,7 +4,7 @@ int main(int argc, char **argv){
     int* tasks;
     tasks = (int*) malloc(NUMBER_OF_TASKS * sizeof(int));
     FILE* file;
-    StackNode* WinnerTeams = NULL;
+    Queue* WinnerTeams = NULL;
     Team* TeamList = NULL;
     file = fopen(argv[1],"rt");
     if(file != NULL){
@@ -12,7 +12,6 @@ int main(int argc, char **argv){
         fscanf(file,"%d",&tasks[i]);
     }
     fclose(file);
-
     if(tasks[0] == 1){
         Task1(argv,&TeamList);
     }

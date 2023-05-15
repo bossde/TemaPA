@@ -60,7 +60,7 @@ typedef struct StackElement StackNode;
 
 void Task1(char** argv, Team** TeamList);
 void Task2(Team** TeamList, char** argv);
-void Task3(Team* TeamList, char** argv, StackNode** WinnerTeams);
+void Task3(Team* TeamList, char** argv,Queue** WinnersTeams);
 void PrintList(Team* TeamList, FILE* output);
 float MedianCalculator(Team* TeamMedian);
 int PowOf2(int numberOfTeams);
