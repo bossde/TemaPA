@@ -5,7 +5,7 @@ int main(int argc, char **argv){
     tasks = (int*) malloc(NUMBER_OF_TASKS * sizeof(int));
     FILE* file;
     FILE* output = fopen(argv[3],"wt");
-    TreeNode* root = NULL;
+    TreeNode* root = NULL,*avlroot = NULL;
     Queue* WinnerTeams = NULL;
     Team *TeamList = NULL,*NewTeamList = NULL;
     file = fopen(argv[1],"rt");
@@ -32,7 +32,7 @@ int main(int argc, char **argv){
     }
 
     if(tasks[4] == 1){
-        Task5(&root,argv);
+        Task5(&avlroot, NewTeamList, argv);
     }
     }
     fclose(output);

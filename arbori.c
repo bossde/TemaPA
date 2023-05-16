@@ -118,28 +118,21 @@ TreeNode* balance(TreeNode* root) {
 
     int balanceFactor = getBalance(root);
 
-    // Left-Left case
     if (balanceFactor > 1 && getBalance(root->left) >= 0)
         return RightRotation(root);
 
-    // Right-Right case
     if (balanceFactor < -1 && getBalance(root->right) <= 0)
         return LeftRotation(root);
 
-    // Left-Right case
-    if (balanceFactor > 1 && getBalance(root->left) < 0) {
-        root->left = LeftRotation(root->left);
-        return RightRotation(root);
-    }
+    if (balanceFactor > 1 && getBalance(root->left) < 0)
+        return LRRotation(root);
 
-    // Right-Left case
-    if (balanceFactor < -1 && getBalance(root->right) > 0) {
-        root->right = RightRotation(root->right);
-        return LeftRotation(root);
-    }
+    if (balanceFactor < -1 && getBalance(root->right) > 0)
+        return RLRotation(root);
 
     return root;
 }
+
 
 void BalanceAVLTree(TreeNode** root) {
     if (*root == NULL) return;
@@ -150,4 +143,71 @@ void BalanceAVLTree(TreeNode** root) {
     }
 }
 
+void PrintLevel2(TreeNode* root, FILE* output) {
+    if (root == NULL) return;
+    if (root->left != NULL) {
+        if (root->left->left != NULL) {
+            fprintf(output, "%-32s\n", root->left->left->TeamNode->name);
+        }
+        if (root->left->right != NULL) {
+            fprintf(output, "%-32s\n", root->left->right->TeamNode->name);
+        }
+    }
+
+    if (root->right != NULL) {
+        if (root->right->left != NULL) {
+            fprintf(output, "%-32s\n", root->right->left->TeamNode->name);
+        }
+        if (root->right->right != NULL) {
+            fprintf(output, "%-32s\n", root->right->right->TeamNode->name);
+        }
+    }
+}
+
+TreeNode* InsertInAvl(TreeNode* root, Team* TeamToAdd){
+    if(root == NULL){
+        root = (TreeNode*) malloc(sizeof(TreeNode));
+        root->TeamNode = TeamToAdd;
+        root->height = 0;
+        root->left = root->right = 0;
+    }
+
+    if(TeamToAdd->team_points < root->TeamNode->team_points){
+        root->left = InsertInAvl(root->left,TeamToAdd);
+    }
+
+    else if(TeamToAdd->team_points > root->TeamNode->team_points){
+        root->right = InsertInAvl(root->right,TeamToAdd);
+    }
+
+    else if(TeamToAdd->team_points == root->TeamNode->team_points){
+        if(strcmp(TeamToAdd->name,root->TeamNode->name) < 0){
+            root->left = InsertInAvl(root->left,TeamToAdd);
+        }
+        else if(strcmp(TeamToAdd->name,root->TeamNode->name) > 0){
+            root->right = InsertInAvl(root->right,TeamToAdd);
+        }
+    }
+
+    root->height = 1 + fmax(nodeHeight(root->left),nodeHeight(root->right));
+
+    int k = nodeHeight(root->left) - nodeHeight(root->right);
+
+    if(k > 1){
+        if(TeamToAdd->team_points < root->left->TeamNode->team_points) return RightRotation(root);
+        else if(TeamToAdd->team_points == root->left->TeamNode->team_points){
+            if(strcmp(TeamToAdd->name,root->left->TeamNode->name) < 0) return RightRotation(root);
+        }
+    }
+    if(k < -1){
+        if(TeamToAdd->team_points > root->right->TeamNode->team_points) return LeftRotation(root);
+        else if(TeamToAdd->team_points == root->right->TeamNode->team_points){
+            if(strcmp(TeamToAdd->name,root->left->TeamNode->name) < 0) return LeftRotation(root);
+        }
+    }
+    if(k > 1 && TeamToAdd->team_points > root->left->TeamNode->team_points) return RLRotation(root);
+    if(k < -1 && TeamToAdd->team_points < root->right->TeamNode->team_points) return LRRotation(root);
+
+    return root;
+}
 

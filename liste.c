@@ -84,3 +84,23 @@ Team* copyTeam(Team* source, Team* destination){
     destination->nextTeam = source->nextTeam;
 	return destination;
 }
+
+Team* reverseLinkedList(Team* head) {
+    Team* prev = NULL;
+    Team* current = head;
+    Team* next = NULL;
+
+    while (current != NULL) {
+        next = current->nextTeam;
+        current->nextTeam = prev;
+
+    
+        prev = current;
+        current = next;
+    }
+
+    head = prev;
+    
+    return head;
+}
+
