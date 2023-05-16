@@ -48,15 +48,9 @@ TreeNode* RightRotation(TreeNode* root){
     LeftRoot->right = root;
     root->left = subTree;
 
-    if(nodeHeight(root->left) > nodeHeight(root->right)){
-        root->height = nodeHeight(root->left) + 1;
-    }
-    else root->height = nodeHeight(root->right) + 1;
+    root->height = max(nodeHeight(root->left),nodeHeight(root->right)) + 1;
 
-    if(nodeHeight(LeftRoot->left) > nodeHeight(LeftRoot->right)){
-        LeftRoot->height = nodeHeight(LeftRoot->left) + 1;
-    }
-    else LeftRoot->height = nodeHeight(LeftRoot->right) + 1;
+    LeftRoot->height = max(nodeHeight(LeftRoot->left),nodeHeight(LeftRoot->right)) + 1;
 
     return LeftRoot;
 }
@@ -65,18 +59,13 @@ TreeNode* LeftRotation(TreeNode* root){
     TreeNode* RightRoot = root->right;
     TreeNode* subTree = RightRoot->left;
 
-    RightRoot->right = root;
+    RightRoot->left = root;
     root->right = subTree;
 
-    if(nodeHeight(root->left) > nodeHeight(root->right)){
-        root->height = nodeHeight(root->left) + 1;
-    }
-    else root->height = nodeHeight(root->right) + 1;
+   
+    root->height = max(nodeHeight(root->left),nodeHeight(root->right)) + 1;
 
-    if(nodeHeight(RightRoot->left) > nodeHeight(RightRoot->right)){
-        RightRoot->height = nodeHeight(RightRoot->left) + 1;
-    }
-    else RightRoot->height = nodeHeight(RightRoot->right) + 1;
+    RightRoot->height = max(nodeHeight(RightRoot->left),nodeHeight(RightRoot->right)) + 1;
 
     return RightRoot;
 }
@@ -89,58 +78,6 @@ TreeNode* LRRotation(TreeNode* root){
 TreeNode* RLRotation(TreeNode* root){
     root->right = RightRotation(root->right);
     return LeftRotation(root);
-}
-
-void FindHeights(TreeNode** root) {
-    if (*root == NULL) return;
-    else {
-        (*root)->height = height(*root);
-        FindHeights(&((*root)->left));
-        FindHeights(&((*root)->right));
-    }
-}
-
-void PrintHeights(TreeNode* root, FILE* output){
-    if(root){
-        PrintHeights(root->right,output);
-        fprintf(output,"%d %s\n",root->height,root->TeamNode->name);
-        PrintHeights(root->left,output);
-    }
-}
-
-int getBalance(TreeNode* node) {
-    if (node == NULL) return 0;
-    return nodeHeight(node->left) - nodeHeight(node->right);
-}
-
-TreeNode* balance(TreeNode* root) {
-    if (root == NULL) return root;
-
-    int balanceFactor = getBalance(root);
-
-    if (balanceFactor > 1 && getBalance(root->left) >= 0)
-        return RightRotation(root);
-
-    if (balanceFactor < -1 && getBalance(root->right) <= 0)
-        return LeftRotation(root);
-
-    if (balanceFactor > 1 && getBalance(root->left) < 0)
-        return LRRotation(root);
-
-    if (balanceFactor < -1 && getBalance(root->right) > 0)
-        return RLRotation(root);
-
-    return root;
-}
-
-
-void BalanceAVLTree(TreeNode** root) {
-    if (*root == NULL) return;
-    else {
-        BalanceAVLTree(&((*root)->left));
-        BalanceAVLTree(&((*root)->right));
-        *root = balance(*root);
-    }
 }
 
 void PrintLevel2(TreeNode* root, FILE* output) {
@@ -169,7 +106,8 @@ TreeNode* InsertInAvl(TreeNode* root, Team* TeamToAdd){
         root = (TreeNode*) malloc(sizeof(TreeNode));
         root->TeamNode = TeamToAdd;
         root->height = 0;
-        root->left = root->right = 0;
+        root->left = root->right = NULL;
+        return root;
     }
 
     if(TeamToAdd->team_points < root->TeamNode->team_points){
@@ -202,7 +140,7 @@ TreeNode* InsertInAvl(TreeNode* root, Team* TeamToAdd){
     if(k < -1){
         if(TeamToAdd->team_points > root->right->TeamNode->team_points) return LeftRotation(root);
         else if(TeamToAdd->team_points == root->right->TeamNode->team_points){
-            if(strcmp(TeamToAdd->name,root->left->TeamNode->name) < 0) return LeftRotation(root);
+            if(strcmp(TeamToAdd->name,root->left->TeamNode->name) > 0) return LeftRotation(root);
         }
     }
     if(k > 1 && TeamToAdd->team_points > root->left->TeamNode->team_points) return RLRotation(root);

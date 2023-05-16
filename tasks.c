@@ -235,6 +235,8 @@ void Task5(TreeNode** avlroot, Team* NewTeamList, char** argv){
     while(Current){
         *avlroot = InsertInAvl(*avlroot,Current);
         Current = Current->nextTeam;
+        
     }
+    PrintLevel2(*avlroot, output);
     fclose(output);
 }
