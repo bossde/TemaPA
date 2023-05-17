@@ -110,7 +110,9 @@ void Task2(Team** TeamList, char* argv[]){
 void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     FILE *output, *input;
     float TeamPoints[10];
-    int PlayerPoints[10][100];
+    int** PlayerPoints;
+    PlayerPoints = (int**) malloc(10 * sizeof(int*));
+    for(int i = 0; i < 10; i++) *(PlayerPoints + i) = (int*) malloc(100 * sizeof(int));
     int TeamContor = 0, PlayerContor = 0, number_of_players_in_team = 0;
     int number_of_teams, new_number_of_teams, number_of_round = 0;
     input = fopen(argv[2],"rt");
@@ -119,8 +121,6 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     new_number_of_teams = PowOf2(number_of_teams);
     Queue* TeamsQueue = NULL;
     StackNode *Winners = NULL,*Losers = NULL;
-    Element* q_copy = NULL;
-    PlayerArray* PlayersInTeam;
     output = fopen(argv[3], "wt");
     *WinnersTeams = createQueue();
     *WinnersTeams = CreateQueue(*WinnersTeams,TeamList);
@@ -136,32 +136,7 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
         fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
         CreateStacks(TeamsQueue,&Winners,&Losers);
         if(new_number_of_teams >= 16) recreateQueueFromWinnersStack(WinnersTeams,Winners);
-        if(new_number_of_teams == 16){
-            q_copy = (*WinnersTeams)->front;
-            while(q_copy){
-                TeamPoints[TeamContor] = q_copy->Teams->firstTeam->team_points;
-                TeamContor++;
-                PlayersInTeam = q_copy->Teams->firstTeam->Players;
-                while(PlayersInTeam){
-                    PlayerPoints[PlayerContor][number_of_players_in_team] = PlayersInTeam->player.points;
-                    number_of_players_in_team++;
-                    PlayersInTeam = PlayersInTeam->next;
-                }
-                PlayerContor++;
-                number_of_players_in_team = 0;
-                TeamPoints[TeamContor] = q_copy->Teams->secondTeam->team_points;
-                TeamContor++;
-                PlayersInTeam = q_copy->Teams->secondTeam->Players;
-                while(PlayersInTeam){
-                    PlayerPoints[PlayerContor][number_of_players_in_team] = PlayersInTeam->player.points;
-                    number_of_players_in_team++;
-                    PlayersInTeam = PlayersInTeam->next;
-                }
-                PlayerContor++;
-                number_of_players_in_team = 0;
-                q_copy = q_copy->next;
-            }
-        }
+        if(new_number_of_teams == 16) UpdateTeamPointsAndPlayerPointsInRound8(WinnersTeams, TeamPoints, PlayerPoints);
         recreateQueueFromWinnersStack(&TeamsQueue,Winners);
         PrintStack(&Winners,output);
         deleteStack(&Losers);
@@ -180,31 +155,7 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     deleteStack(&Losers);
     deleteStack(&Winners);
     free(TeamsQueue);
-    q_copy = (*WinnersTeams)->front;
-    while(q_copy){
-        q_copy->Teams->firstTeam->team_points = TeamPoints[TeamContor];
-        TeamContor++;
-        PlayersInTeam = q_copy->Teams->firstTeam->Players;
-        while(PlayersInTeam){
-            PlayersInTeam->player.points = PlayerPoints[PlayerContor][number_of_players_in_team];
-            number_of_players_in_team++;
-            PlayersInTeam = PlayersInTeam->next;
-        }
-        PlayerContor++;
-        number_of_players_in_team = 0;
-        q_copy->Teams->secondTeam->team_points = TeamPoints[TeamContor];
-        TeamContor++;
-        PlayersInTeam = q_copy->Teams->secondTeam->Players;
-        while(PlayersInTeam){
-            PlayersInTeam->player.points = PlayerPoints[PlayerContor][number_of_players_in_team];
-            number_of_players_in_team++;
-            PlayersInTeam = PlayersInTeam->next;
-        }
-        PlayerContor++;
-        number_of_players_in_team = 0;
-        q_copy = q_copy->next;
-    }
-    free(PlayersInTeam);
+    UpdateTeamData((*WinnersTeams)->front, TeamPoints, &TeamContor, PlayerPoints, &PlayerContor, &number_of_players_in_team);
     fclose(output);
 }
 

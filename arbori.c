@@ -1,13 +1,5 @@
 #include "header.h"
 
-int max(int x, int y){
-    if(x > y){
-        return x;
-    }else{
-        return y;
-    }
-}
-
 TreeNode* newNode(Team* TeamToAdd){
     TreeNode* node = (TreeNode*) malloc(sizeof(TreeNode));
     node->TeamNode = TeamToAdd;

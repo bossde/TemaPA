@@ -74,6 +74,7 @@ void Task3(Team* TeamList, char** argv,Queue** WinnersTeams);
 void Task4(Queue* WinnersTeam, Team** TeamWinners,TreeNode** root, char** argv);
 void Task5(TreeNode** avlroot, TreeNode* root, char** argv);
 
+int max(int x, int y);
 
 void PrintList(Team* TeamList, FILE* output);
 float MedianCalculator(Team* TeamMedian);
@@ -81,7 +82,9 @@ int PowOf2(int numberOfTeams);
 void RemoveTeam(Team** TeamHead, Team* TeamToDelete);
 Team* copyTeam(Team* source, Team* destination);
 Team* reverseLinkedList(Team* head);
-
+void UpdateTeamPointsAndPlayerPoints(Queue** WinnersTeams, float* TeamPoints, int** PlayerPoints, int* TeamContor, int* PlayerContor, int* number_of_players_in_team, Element* q_copy);
+void UpdateTeamPointsAndPlayerPointsInRound8(Queue** WinnersTeams, float* TeamPoints, int** PlayerPoints);
+void UpdateTeamData(Element* winnersTeamsFront, float* teamPoints, int* teamContor, int** playerPoints, int* playerContor, int* numberOfPlayersInTeam);
 
 Queue* createQueue();
 void enQueue(Queue*q, Team* firstTeam, Team* secondTeam);
