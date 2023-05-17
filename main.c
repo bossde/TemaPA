@@ -14,6 +14,7 @@ int main(int argc, char **argv){
         fscanf(file,"%d",&tasks[i]);
     }
     fclose(file);
+    }
     if(tasks[0] == 1){
         Task1(argv,&TeamList);
     }
@@ -32,8 +33,7 @@ int main(int argc, char **argv){
     }
 
     if(tasks[4] == 1){
-        Task5(&avlroot, NewTeamList, argv);
-    }
+        Task5(&avlroot, root, argv);
     }
     fclose(output);
     return 0;

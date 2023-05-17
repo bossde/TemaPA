@@ -1,5 +1,13 @@
 #include "header.h"
 
+int max(int x, int y){
+    if(x > y){
+        return x;
+    }else{
+        return y;
+    }
+}
+
 TreeNode* newNode(Team* TeamToAdd){
     TreeNode* node = (TreeNode*) malloc(sizeof(TreeNode));
     node->TeamNode = TeamToAdd;
@@ -28,124 +36,135 @@ void PrintBST(TreeNode* root, FILE* output){
     }
 }
 
-int height(TreeNode* node) {
-    if (node == NULL) return 0;
-    int leftHeight = height(node->left);
-    int rightHeight = height(node->right);
-    if(node->left == 0 && node->right == 0) return 0;
-    else return 1 + (leftHeight > rightHeight ? leftHeight : rightHeight);
+void inorderTraversal(TreeNode* root, Team** head)
+{
+    if (root == NULL)
+        return;
+  
+    inorderTraversal(root->left, head);
+  
+    Team* newNode = (Team*)malloc(sizeof(Team));
+    newNode->name = root->TeamNode->name;
+    newNode->numberOfPlayers = root->TeamNode->numberOfPlayers;
+    newNode->team_points = root->TeamNode->team_points;
+    newNode->Players = root->TeamNode->Players;
+    newNode->nextTeam = NULL;
+  
+    if (*head == NULL) {
+        *head = newNode;
+    } else {
+        Team* current = *head;
+        while (current->nextTeam != NULL) {
+            current = current->nextTeam;
+        }
+        current->nextTeam = newNode;
+    }
+  
+    inorderTraversal(root->right, head);
 }
+
 
 int nodeHeight(TreeNode* root){
     if(root == NULL) return -1;
     else return root->height;
 }
 
-TreeNode* RightRotation(TreeNode* root){
-    TreeNode* LeftRoot = root->left;
-    TreeNode* subTree = LeftRoot->right;
+TreeNode* RightRotation(TreeNode* z){
+    TreeNode* y = z->left;
+    TreeNode* T3 = y->right;
 
-    LeftRoot->right = root;
-    root->left = subTree;
+    y->right = z;
+    z->left = T3;
 
-    root->height = max(nodeHeight(root->left),nodeHeight(root->right)) + 1;
+    z->height = max(nodeHeight(z->left),nodeHeight(z->right)) + 1;
+    y->height = max(nodeHeight(y->left),nodeHeight(y->right)) + 1;
 
-    LeftRoot->height = max(nodeHeight(LeftRoot->left),nodeHeight(LeftRoot->right)) + 1;
-
-    return LeftRoot;
+    return y;
 }
 
-TreeNode* LeftRotation(TreeNode* root){
-    TreeNode* RightRoot = root->right;
-    TreeNode* subTree = RightRoot->left;
+TreeNode* LeftRotation(TreeNode* z){
+    TreeNode* y = z->right;
+    TreeNode* T2 = y->left;
+    y->left = z;
+    z->right = T2;
 
-    RightRoot->left = root;
-    root->right = subTree;
+    z->height = max(nodeHeight(z->left),nodeHeight(z->right)) + 1;
+    y->height = max(nodeHeight(y->left),nodeHeight(y->right)) + 1;
 
-   
-    root->height = max(nodeHeight(root->left),nodeHeight(root->right)) + 1;
-
-    RightRoot->height = max(nodeHeight(RightRoot->left),nodeHeight(RightRoot->right)) + 1;
-
-    return RightRoot;
+    return y;
 }
 
-TreeNode* LRRotation(TreeNode* root){
-    root->left = LeftRotation(root->left);
-    return RightRotation(root);
+TreeNode* LRRotation(TreeNode* z){
+    z->left = LeftRotation(z->left);
+    return RightRotation(z);
 }
 
-TreeNode* RLRotation(TreeNode* root){
-    root->right = RightRotation(root->right);
-    return LeftRotation(root);
+TreeNode* RLRotation(TreeNode* z){
+    z->right = RightRotation(z->right);
+    return LeftRotation(z);
 }
 
 void PrintLevel2(TreeNode* root, FILE* output) {
     if (root == NULL) return;
-    if (root->left != NULL) {
-        if (root->left->left != NULL) {
-            fprintf(output, "%-32s\n", root->left->left->TeamNode->name);
-        }
-        if (root->left->right != NULL) {
-            fprintf(output, "%-32s\n", root->left->right->TeamNode->name);
-        }
-    }
 
     if (root->right != NULL) {
-        if (root->right->left != NULL) {
-            fprintf(output, "%-32s\n", root->right->left->TeamNode->name);
-        }
         if (root->right->right != NULL) {
             fprintf(output, "%-32s\n", root->right->right->TeamNode->name);
         }
+        if (root->right->left != NULL) {
+            fprintf(output, "%-32s\n", root->right->left->TeamNode->name);
+        }
+    }
+
+    if (root->left != NULL) {
+        if (root->left->right != NULL) {
+            fprintf(output, "%-32s\n", root->left->right->TeamNode->name);
+        }
+        if (root->left->left != NULL) {
+            fprintf(output, "%-32s\n", root->left->left->TeamNode->name);
+        }
     }
 }
 
-TreeNode* InsertInAvl(TreeNode* root, Team* TeamToAdd){
-    if(root == NULL){
-        root = (TreeNode*) malloc(sizeof(TreeNode));
-        root->TeamNode = TeamToAdd;
-        root->height = 0;
-        root->left = root->right = NULL;
-        return root;
+TreeNode* InsertInAvl(TreeNode* node, Team* TeamToAdd){
+    if(node == NULL){
+        node = (TreeNode*) malloc(sizeof(TreeNode));
+        node->TeamNode = TeamToAdd;
+        node->height = 0;
+        node->left = node->right = NULL;
+        return node;
     }
 
-    if(TeamToAdd->team_points < root->TeamNode->team_points){
-        root->left = InsertInAvl(root->left,TeamToAdd);
-    }
+    if(TeamToAdd->team_points < node->TeamNode->team_points) node->left = InsertInAvl(node->left,TeamToAdd);
+    else if(TeamToAdd->team_points > node->TeamNode->team_points) node->right = InsertInAvl(node->right,TeamToAdd);
+    else if(TeamToAdd->team_points == node->TeamNode->team_points){
+        if(strcmp(node->TeamNode->name,TeamToAdd->name) > 0) node->left = InsertInAvl(node->left,TeamToAdd);
+        else if(strcmp(node->TeamNode->name,TeamToAdd->name) < 0) node->right = InsertInAvl(node->right,TeamToAdd);
+}
 
-    else if(TeamToAdd->team_points > root->TeamNode->team_points){
-        root->right = InsertInAvl(root->right,TeamToAdd);
-    }
+    node->height = 1 + max(nodeHeight(node->left), nodeHeight(node->right));
 
-    else if(TeamToAdd->team_points == root->TeamNode->team_points){
-        if(strcmp(TeamToAdd->name,root->TeamNode->name) < 0){
-            root->left = InsertInAvl(root->left,TeamToAdd);
-        }
-        else if(strcmp(TeamToAdd->name,root->TeamNode->name) > 0){
-            root->right = InsertInAvl(root->right,TeamToAdd);
-        }
-    }
-
-    root->height = 1 + fmax(nodeHeight(root->left),nodeHeight(root->right));
-
-    int k = nodeHeight(root->left) - nodeHeight(root->right);
+    int k = nodeHeight(node->left) - nodeHeight(node->right);
 
     if(k > 1){
-        if(TeamToAdd->team_points < root->left->TeamNode->team_points) return RightRotation(root);
-        else if(TeamToAdd->team_points == root->left->TeamNode->team_points){
-            if(strcmp(TeamToAdd->name,root->left->TeamNode->name) < 0) return RightRotation(root);
+        if(TeamToAdd->team_points < node->left->TeamNode->team_points) return RightRotation(node);
+        else if(TeamToAdd->team_points == node->left->TeamNode->team_points){
+            if(strcmp(node->left->TeamNode->name,TeamToAdd->name) > 0) return RightRotation(node);
         }
     }
-    if(k < -1){
-        if(TeamToAdd->team_points > root->right->TeamNode->team_points) return LeftRotation(root);
-        else if(TeamToAdd->team_points == root->right->TeamNode->team_points){
-            if(strcmp(TeamToAdd->name,root->left->TeamNode->name) > 0) return LeftRotation(root);
-        }
-    }
-    if(k > 1 && TeamToAdd->team_points > root->left->TeamNode->team_points) return RLRotation(root);
-    if(k < -1 && TeamToAdd->team_points < root->right->TeamNode->team_points) return LRRotation(root);
 
-    return root;
+    if(k < -1){
+        if(TeamToAdd->team_points > node->right->TeamNode->team_points) return LeftRotation(node);
+        else if(TeamToAdd->team_points == node->right->TeamNode->team_points){
+            if(strcmp(node->left->TeamNode->name,TeamToAdd->name) < 0) return LeftRotation(node);
+        }
+    }
+
+    if(k > 1 && TeamToAdd->team_points > node->left->TeamNode->team_points) return LRRotation(node);
+    if(k < -1 && TeamToAdd->team_points < node->right->TeamNode->team_points) return RLRotation(node);
+
+    return node;
 }
+
+
 

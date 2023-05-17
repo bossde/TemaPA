@@ -8,10 +8,6 @@
 #define NAMES_LENGHT 80
 #define WINNER_TEAMS 8
 #define SEMI_FINAL 2
- #define max(a,b) \
-   ({ __typeof__ (a) _a = (a); \
-       __typeof__ (b) _b = (b); \
-     _a > _b ? _a : _b; })
 
 struct Player
 {
@@ -71,14 +67,12 @@ struct TreeNode{
 typedef struct TreeNode TreeNode;
 
 
-typedef struct AVLTreeNode AVLTreeNode;
-
 
 void Task1(char** argv, Team** TeamList);
 void Task2(Team** TeamList, char** argv);
 void Task3(Team* TeamList, char** argv,Queue** WinnersTeams);
 void Task4(Queue* WinnersTeam, Team** TeamWinners,TreeNode** root, char** argv);
-void Task5(TreeNode** avlroot, Team* NewTeamList, char** argv);
+void Task5(TreeNode** avlroot, TreeNode* root, char** argv);
 
 
 void PrintList(Team* TeamList, FILE* output);
@@ -111,14 +105,15 @@ void CreateStacks(Queue* q, StackNode** Winners, StackNode** Losers);
 void PrintStack(StackNode**top, FILE* output);
 void recreateQueueFromWinnersStack(Queue** q, StackNode* winnersStack);
 
+int max(int x, int y);
 TreeNode* newNode(Team* TeamToAdd);
 TreeNode* insert(TreeNode* node, Team* TeamToAdd);
 void PrintBST(TreeNode* root, FILE* output);
-int height(TreeNode* root);
 int nodeHeight(TreeNode* root);
-TreeNode* RightRotation(TreeNode* root);
-TreeNode* LeftRotation(TreeNode* root);
-TreeNode* LRRotation(TreeNode* root);
-TreeNode* RLRotation(TreeNode* root);
+void inorderTraversal(TreeNode* root, Team** head);
+TreeNode* RightRotation(TreeNode* z);
+TreeNode* LeftRotation(TreeNode* z);
+TreeNode* LRRotation(TreeNode* z);
+TreeNode* RLRotation(TreeNode* z);
 void PrintLevel2(TreeNode* root, FILE* output);
 TreeNode* InsertInAvl(TreeNode* root, Team* TeamToAdd);

@@ -226,16 +226,18 @@ void Task4(Queue* WinnersTeam, Team** TeamWinners, TreeNode** root, char** argv)
     fclose(output);
 }
 
-void Task5(TreeNode** avlroot, Team* NewTeamList, char** argv){
+void Task5(TreeNode** avlroot, TreeNode* root, char** argv){
     FILE* output;
     output = fopen(argv[3],"at");
     fprintf(output,"\n");
     fprintf(output,"THE LEVEL 2 TEAMS ARE:\n");
-    Team* Current = NewTeamList;
-    while(Current){
-        *avlroot = InsertInAvl(*avlroot,Current);
-        Current = Current->nextTeam;
-        
+    Team* Current = NULL;
+    inorderTraversal(root,&Current);
+    Team* ReversedCurrent = NULL;
+    ReversedCurrent = reverseLinkedList(Current);
+    while(ReversedCurrent){
+        *avlroot = InsertInAvl(*avlroot,ReversedCurrent);
+        ReversedCurrent = ReversedCurrent->nextTeam;
     }
     PrintLevel2(*avlroot, output);
     fclose(output);
