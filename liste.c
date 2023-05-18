@@ -1,5 +1,35 @@
 #include "header.h"
 
+void AddTeamInList(Team** TeamList, Team* Element){
+    if (*TeamList == NULL){
+        *TeamList = Element;
+    }
+    else{
+        Team* Current = *TeamList;
+        Element->nextTeam = Current;
+        *TeamList = Element;
+    }
+}
+
+void ModifyPlayers(Team** Element, FILE* date){
+    PlayerArray* Auxiliar = (*Element)->Players;
+            for(int j = 0; j < (*Element)->numberOfPlayers; j++){
+                Auxiliar->player.firstName = (char*) malloc(NAMES_LENGHT);
+                Auxiliar->player.secondName = (char*) malloc(NAMES_LENGHT);
+                fscanf(date,"%s",Auxiliar->player.firstName);
+                fscanf(date,"%s",Auxiliar->player.secondName);
+                fscanf(date,"%d",&Auxiliar->player.points); 
+
+        if (j < (*Element)->numberOfPlayers - 1){
+            Auxiliar->next = (PlayerArray*) malloc(sizeof(PlayerArray));
+            Auxiliar = Auxiliar->next;
+        } 
+        else{
+            Auxiliar->next = NULL;
+        }
+    }
+}
+
 void PrintList(Team* TeamList, FILE* output){
 	while(TeamList){
 		fprintf(output,"%s\n",TeamList->name);
@@ -212,6 +242,17 @@ void FreeList(Team** TeamList) {
     }
     
     *TeamList = NULL;
+}
+
+void FreeTeam(Team** Element){
+    free((*Element)->name);
+    while((*Element)->Players){
+        free((*Element)->Players->player.firstName);
+        free((*Element)->Players->player.secondName);
+        (*Element)->Players = (*Element)->Players->next;
+    }
+    free(*Element);
+    *Element = NULL;
 }
 
 

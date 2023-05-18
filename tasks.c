@@ -24,29 +24,8 @@ void Task1(char **argv, Team **TeamList){
                 Element->name[strlen(Element->name) - 1] = '\0';
             }
 
-            PlayerArray* Auxiliar = Element->Players;
-            for(int j = 0; j < Element->numberOfPlayers; j++){
-                Auxiliar->player.firstName = (char*) malloc(NAMES_LENGHT);
-                Auxiliar->player.secondName = (char*) malloc(NAMES_LENGHT);
-                fscanf(date,"%s",Auxiliar->player.firstName);
-                fscanf(date,"%s",Auxiliar->player.secondName);
-                fscanf(date,"%d",&Auxiliar->player.points); 
-
-                if (j < Element->numberOfPlayers - 1){
-                    Auxiliar->next = (PlayerArray*) malloc(sizeof(PlayerArray));
-                    Auxiliar = Auxiliar->next;
-                } else {
-                    Auxiliar->next = NULL;
-                }
-            }
-
-            if (*TeamList == NULL){
-                *TeamList = Element;
-            } else {
-                Team* Current = *TeamList;
-                Element->nextTeam = Current;
-                *TeamList = Element;
-            }
+            ModifyPlayers(&Element,date);
+            AddTeamInList(TeamList,Element);
         }
         PrintList(*TeamList, output);
     }

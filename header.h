@@ -76,6 +76,9 @@ void Task5(TreeNode** avlroot, TreeNode* root, char** argv);
 
 int max(int x, int y);
 
+void AddTeamInList(Team** TeamList, Team* Element);
+void ModifyPlayers(Team** Element, FILE* date);
+void FreeTeam(Team** Element);
 void PrintList(Team* TeamList, FILE* output);
 float MedianCalculator(Team* TeamMedian);
 int PowOf2(int numberOfTeams);
@@ -86,6 +89,7 @@ void UpdateTeamPointsAndPlayerPoints(Queue** WinnersTeams, float* TeamPoints, in
 void UpdateTeamPointsAndPlayerPointsInRound8(Queue** WinnersTeams, float* TeamPoints, int** PlayerPoints);
 void UpdateTeamData(Element* winnersTeamsFront, float* teamPoints, int* teamContor, int** playerPoints, int* playerContor, int* numberOfPlayersInTeam);
 void FreeList(Team** TeamList);
+
 
 Queue* createQueue();
 void enQueue(Queue*q, Team* firstTeam, Team* secondTeam);
