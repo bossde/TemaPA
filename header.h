@@ -85,6 +85,7 @@ Team* reverseLinkedList(Team* head);
 void UpdateTeamPointsAndPlayerPoints(Queue** WinnersTeams, float* TeamPoints, int** PlayerPoints, int* TeamContor, int* PlayerContor, int* number_of_players_in_team, Element* q_copy);
 void UpdateTeamPointsAndPlayerPointsInRound8(Queue** WinnersTeams, float* TeamPoints, int** PlayerPoints);
 void UpdateTeamData(Element* winnersTeamsFront, float* teamPoints, int* teamContor, int** playerPoints, int* playerContor, int* numberOfPlayersInTeam);
+void FreeList(Team** TeamList);
 
 Queue* createQueue();
 void enQueue(Queue*q, Team* firstTeam, Team* secondTeam);

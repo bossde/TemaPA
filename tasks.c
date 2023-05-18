@@ -156,6 +156,10 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     deleteStack(&Winners);
     free(TeamsQueue);
     UpdateTeamData((*WinnersTeams)->front, TeamPoints, &TeamContor, PlayerPoints, &PlayerContor, &number_of_players_in_team);
+    for(int i = 0; i < 10; i++){
+        free(PlayerPoints[i]);
+    }
+    free(PlayerPoints);
     fclose(output);
 }
 
@@ -191,5 +195,7 @@ void Task5(TreeNode** avlroot, TreeNode* root, char** argv){
         ReversedCurrent = ReversedCurrent->nextTeam;
     }
     PrintLevel2(*avlroot, output);
+    FreeList(&Current);
+    FreeList(&ReversedCurrent);
     fclose(output);
 }

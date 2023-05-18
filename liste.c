@@ -192,4 +192,27 @@ void UpdateTeamData(Element* winnersTeamsFront, float* teamPoints, int* teamCont
     }
 }
 
+void FreeList(Team** TeamList) {
+    Team* currentTeam = *TeamList;
+    while (currentTeam) {
+        free(currentTeam->name);
+        
+        PlayerArray* currentPlayer = currentTeam->Players;
+        while (currentPlayer) {
+            free(currentPlayer->player.firstName);
+            free(currentPlayer->player.secondName);
+            PlayerArray* nextPlayer = currentPlayer->next;
+            free(currentPlayer);
+            currentPlayer = nextPlayer;
+        }
+        
+        Team* nextTeam = currentTeam->nextTeam;
+        free(currentTeam);
+        currentTeam = nextTeam;
+    }
+    
+    *TeamList = NULL;
+}
+
+
 
