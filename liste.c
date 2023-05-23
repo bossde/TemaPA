@@ -244,16 +244,20 @@ void FreeList(Team** TeamList) {
     *TeamList = NULL;
 }
 
-void FreeTeam(Team** Element){
+void FreeTeam(Team** Element) {
     free((*Element)->name);
-    while((*Element)->Players){
-        free((*Element)->Players->player.firstName);
-        free((*Element)->Players->player.secondName);
-        (*Element)->Players = (*Element)->Players->next;
+    PlayerArray* current = (*Element)->Players;
+    while (current) {
+        PlayerArray* next = current->next;
+        free(current->player.firstName);
+        free(current->player.secondName);
+        free(current);
+        current = next;
     }
     free(*Element);
     *Element = NULL;
 }
+
 
 
 

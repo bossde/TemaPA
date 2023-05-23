@@ -23,7 +23,6 @@ void Task1(char **argv, Team **TeamList){
             if(Element->name[strlen(Element->name) - 1] == ' '){
                 Element->name[strlen(Element->name) - 1] = '\0';
             }
-
             ModifyPlayers(&Element,date);
             AddTeamInList(TeamList,Element);
         }
