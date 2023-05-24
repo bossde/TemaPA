@@ -1,5 +1,14 @@
 # TEMA LANPARTY
 
+[Descriere](#descriere)
+[Implementare](#implementare)
+[Task1](#task-1)
+[Task2](#task-2)
+[Task3](#task-3)
+[Task4](#task-4)
+[Task5](#task-5)
+
+## DESCRIERE
 Tema se referă la realizarea unei soluții software care să automatizeze un LAN Party organizat de Facultatea de Automatică și Calculatoare prin LSAC. Acest LAN Party implică participarea unui număr de echipe, iar soluția trebuie să îndeplinească următoarele cerințe:
 
 1. Crearea unei liste cu informațiile echipelor citite din fișierul "d.in". Lista trebuie să fie implementată prin adăugarea elementelor la început într-un timp constant O(1).
