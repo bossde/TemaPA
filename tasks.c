@@ -87,10 +87,10 @@ void Task2(Team** TeamList, char* argv[]){
 
 void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     FILE *output, *input;
-    float TeamPoints[10];
+    float TeamPoints[MAX_TEAMS_ARRAY];
     int** PlayerPoints;
-    PlayerPoints = (int**) malloc(10 * sizeof(int*));
-    for(int i = 0; i < 10; i++) *(PlayerPoints + i) = (int*) malloc(100 * sizeof(int));
+    PlayerPoints = (int**) malloc(MAX_TEAMS_ARRAY * sizeof(int*));
+    for(int i = 0; i < MAX_TEAMS_ARRAY; i++) *(PlayerPoints + i) = (int*) malloc(MAX_NUMBER_OF_PLAYERS_IN_A_TEAM * sizeof(int));
     int TeamContor = 0, PlayerContor = 0, number_of_players_in_team = 0;
     int number_of_teams, new_number_of_teams, number_of_round = 0;
     input = fopen(argv[2],"rt");
@@ -113,8 +113,8 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
         PrintMatches(TeamsQueue,output);
         fprintf(output,"WINNERS OF ROUND NO:%d\n",number_of_round);
         CreateStacks(TeamsQueue,&Winners,&Losers);
-        if(new_number_of_teams >= 16) recreateQueueFromWinnersStack(WinnersTeams,Winners);
-        if(new_number_of_teams == 16) UpdateTeamPointsAndPlayerPointsInRound8(WinnersTeams, TeamPoints, PlayerPoints);
+        if(new_number_of_teams >= LAST_EIGHT_TEAMS) recreateQueueFromWinnersStack(WinnersTeams,Winners);
+        if(new_number_of_teams == LAST_EIGHT_TEAMS) UpdateTeamPointsAndPlayerPointsInRound8(WinnersTeams, TeamPoints, PlayerPoints);
         recreateQueueFromWinnersStack(&TeamsQueue,Winners);
         PrintStack(&Winners,output);
         deleteStack(&Losers);
@@ -134,7 +134,7 @@ void Task3(Team* TeamList, char** argv, Queue** WinnersTeams){
     deleteStack(&Winners);
     free(TeamsQueue);
     UpdateTeamData((*WinnersTeams)->front, TeamPoints, &TeamContor, PlayerPoints, &PlayerContor, &number_of_players_in_team);
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < MAX_TEAMS_ARRAY; i++){
         free(PlayerPoints[i]);
     }
     free(PlayerPoints);

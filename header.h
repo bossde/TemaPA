@@ -8,6 +8,9 @@
 #define NAMES_LENGHT 80
 #define WINNER_TEAMS 8
 #define SEMI_FINAL 2
+#define MAX_TEAMS_ARRAY 10
+#define MAX_NUMBER_OF_PLAYERS_IN_A_TEAM 100
+#define LAST_EIGHT_TEAMS 16
 
 struct Player
 {
