@@ -1,18 +1,19 @@
 # TEMA LANPARTY
 
-[Descriere](#descriere)
+## CUPRINS
+A. [Descriere](#descriere)
 
-[Implementare](#implementare)
+B. [Implementare](#implementare)
 
-[Task1](#task-1)
+C. [Task1](#task-1)
 
-[Task2](#task-2)
+D. [Task2](#task-2)
 
-[Task3](#task-3)
+E. [Task3](#task-3)
 
-[Task4](#task-4)
+F. [Task4](#task-4)
 
-[Task5](#task-5)
+G. [Task5](#task-5)
 
 
 ## DESCRIERE
