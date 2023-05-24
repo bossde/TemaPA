@@ -36,6 +36,7 @@ int main(int argc, char **argv){
         Task5(&avlroot, root, argv);
     }
     fclose(output);
+    free(tasks);
     return 0;
 }
     

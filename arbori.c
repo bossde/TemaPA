@@ -30,6 +30,7 @@ void PrintBST(TreeNode* root, FILE* output){
 
 void inorderTraversal(TreeNode* root, Team** head)
 {
+    //prin intermediul acestei functii, salvez echipele de la task-ul 4 intr-o lista, parcurgand arborele in inordine
     if (root == NULL)
         return;
   

@@ -84,6 +84,7 @@ void CalculatePoints(Queue *q){
 }
 
 void recreateQueueFromWinnersStack(Queue** q, StackNode* winnersStack) {
+	//recreez coada cu echipele castigatoare in fiecare pas al 'while'-ului din stiva de echipe castigatoare
     while (!isEmpty(*q)) {
         deQueue(*q);
     }
@@ -108,6 +109,7 @@ Queue* newQueue(Queue* q){
 }
 
 void QueueToList(Queue* q, Team** TeamListt){
+	//avand in vedere faptul ca stiu ca am de salvat 8 echipe, aceasta functie transmite ultimele 4 meciuri care contin 8 echipe intr-o lista, dupa cum mi s-a cerut in tema
 	Element* q_copy = q->front;
 	(*TeamListt) = q_copy->Teams->firstTeam;
 	(*TeamListt)->nextTeam = q_copy->Teams->secondTeam;

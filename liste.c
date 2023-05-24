@@ -38,6 +38,7 @@ void PrintList(Team* TeamList, FILE* output){
 }
 
 float MedianCalculator(Team* TeamMedian){
+    //calculez media pentru fiecare echipa
 	float median = 0;
 	int numberOfSums = 0;
 	PlayerArray* Current = TeamMedian->Players;
@@ -161,6 +162,7 @@ void UpdateTeamPointsAndPlayerPoints(Queue** WinnersTeams, float* TeamPoints, in
 }
 
 void UpdateTeamPointsAndPlayerPointsInRound8(Queue** WinnersTeams, float* TeamPoints, int** PlayerPoints) {
+    //aceasta functie o folosesc sa salvez punctajele echipelor, respectiv jucatorilor din cele 8 ramase
     int TeamContor = 0;
     int PlayerContor = 0;
     int number_of_players_in_team = 0;
@@ -196,6 +198,7 @@ void UpdateTeamPointsAndPlayerPointsInRound8(Queue** WinnersTeams, float* TeamPo
 }
 
 void UpdateTeamData(Element* winnersTeamsFront, float* teamPoints, int* teamContor, int** playerPoints, int* playerContor, int* numberOfPlayersInTeam) {
+    //cu ajutorul acestei functii restabilesc punctajele din ultimele 8 meciuri cand se modifica
     Element* q_copy = winnersTeamsFront;
     while (q_copy) {
         q_copy->Teams->firstTeam->team_points = teamPoints[(*teamContor)];
