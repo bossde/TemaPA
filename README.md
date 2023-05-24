@@ -1,23 +1,22 @@
 # TEMA LANPARTY
 
 ## CUPRINS
-A. [Descriere](#descriere)
+* [Descriere](#descriere)
 
-B. [Implementare](#implementare)
+* [Implementare](#implementare)
 
-C. [Task1](#task-1)
+* [Task1](#task-1)
 
-D. [Task2](#task-2)
+* [Task2](#task-2)
 
-E. [Task3](#task-3)
+* [Task3](#task-3)
 
-F. [Task4](#task-4)
+* [Task4](#task-4)
 
-G. [Task5](#task-5)
-
+* [Task5](#task-5)
 
 ## DESCRIERE
-Tema se referă la realizarea unei soluții software care să automatizeze un LAN Party organizat de Facultatea de Automatică și Calculatoare prin LSAC. Acest LAN Party implică participarea unui număr de echipe, iar soluția trebuie să îndeplinească următoarele cerințe:
+[Tema](https://ocw.cs.pub.ro/courses/sda-ab/tema1) se referă la realizarea unei soluții software care să automatizeze un LAN Party organizat de Facultatea de Automatică și Calculatoare prin LSAC. Acest LAN Party implică participarea unui număr de echipe, iar soluția trebuie să îndeplinească următoarele cerințe:
 
 1. Crearea unei liste cu informațiile echipelor citite din fișierul "d.in". Lista trebuie să fie implementată prin adăugarea elementelor la început într-un timp constant O(1).
 
